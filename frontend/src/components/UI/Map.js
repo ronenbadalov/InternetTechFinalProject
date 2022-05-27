@@ -14,7 +14,7 @@ const data = [];
 let innerData = [];
 let count = 0;
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 100; i++) {
   for (let j = 0; j < 100; j++) {
     let land = {
       id: count,
@@ -32,7 +32,7 @@ console.log(data);
 
 const Map = () => {
   return (
-    <Container className={classes["map"]}>
+    <Container className={classes["container"]} style={{margin: '30px'}}>
       {data.map((row, i) => {
         return (
           <Row className={classes["row"]} key={i} xs={"auto"}>
