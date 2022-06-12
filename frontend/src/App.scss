@@ -1,0 +1,18 @@
+html,
+#root,
+body,
+.App {
+  height: 100%;
+}
+.signupContainer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: auto;
+}
