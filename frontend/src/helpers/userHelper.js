@@ -35,9 +35,17 @@ export const getUser = async (email, password) => {
       `http://127.0.0.1:5000/user/get?id=${auth.currentUser.uid}`
     );
     const data = await getUserById.json();
-    console.log(data);
     sessionStorage.setItem("user", JSON.stringify(data));
+    return data;
   } catch (e) {
     console.error(e.message);
   }
+};
+
+export const getUserFromSession = () => {
+  return JSON.parse(sessionStorage.getItem("user"));
+};
+
+export const userLogOut = () => {
+  sessionStorage.removeItem("user");
 };

@@ -3,33 +3,6 @@ import Land from "./Land";
 import classes from "./Map.module.scss";
 import { Container, Row, Col } from "react-bootstrap";
 
-// types: unowned, owned ,owned-forSale, road, park
-// owner: userId
-// const rand = () => {
-//   const min = Math.ceil(15);
-//   const max = Math.floor(200);
-//   return Math.floor(Math.random() * (max - min) + min);
-// };
-// const data = [];
-// let innerData = [];
-// let count = 0;
-
-// for (let i = 0; i < 100; i++) {
-//   for (let j = 0; j < 100; j++) {
-//     let land = {
-//       id: count,
-//       type: "unowned",
-//       price: rand(),
-//       owner: null,
-//     };
-//     count++;
-//     innerData.push(land);
-//   }
-//   data.push(innerData);
-//   innerData = [];
-// }
-// console.log(data);
-
 const getMap = async () => {
   try {
     const res = await fetch("http://127.0.0.1:5000/land/getAll");
@@ -60,7 +33,7 @@ const Map = () => {
   }, []);
 
   return (
-    <Container className={classes["container"]} style={{ margin: "30px" }}>
+    <div className={classes["container"]} style={{ margin: "30px" }}>
       {mapData.map((row, i) => {
         return (
           <Row className={classes["row"]} key={i} xs={"auto"}>
@@ -80,7 +53,7 @@ const Map = () => {
           </Row>
         );
       })}
-    </Container>
+    </div>
   );
 };
 

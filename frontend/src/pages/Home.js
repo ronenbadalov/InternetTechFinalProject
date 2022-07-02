@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Legend from "../components/Legend/Legend";
+import Loader from "../components/Loader/Loader";
 import Map from "../components/UI/Map";
 
+// const wait = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const Home = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     setIsLoading(true);
+  //     await wait(6000);
+  //     setIsLoading(false);
+  //     // console.log("done");
+  //   })();
+  // }, []);
   return (
-    <div>
-      <Map />
+    <div className="home">
+      {/* {isLoading && <Loader />} */}
+      <Legend />
+      {!isLoading && <Map />}
     </div>
   );
 };
