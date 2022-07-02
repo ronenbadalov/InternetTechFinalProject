@@ -3,6 +3,11 @@ html,
 body,
 .App {
   height: 100%;
+
+  .home {
+    display: flex;
+    margin: 1rem;
+  }
 }
 .signupContainer {
   display: flex;

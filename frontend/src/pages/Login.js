@@ -1,8 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { getUser } from "../helpers/userHelper";
+import { getUser, getUserFromSession } from "../helpers/userHelper";
+import CurUserContext from "../store/curUser-context";
 const Login = () => {
+  const curUserCtx = useContext(CurUserContext);
+
   const [isUsernameError, setIsUsernameError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
   const [email, setEmail] = useState(null);
@@ -25,11 +28,9 @@ const Login = () => {
 
   const submitFormHandler = async (e) => {
     e.preventDefault();
-    await getUser(email, password);
-    console.log(email);
-    console.log(password);
+    const user = await getUser(email, password);
+    curUserCtx.login(user);
   };
-
   return (
     <div>
       <form className="form" onSubmit={submitFormHandler}>

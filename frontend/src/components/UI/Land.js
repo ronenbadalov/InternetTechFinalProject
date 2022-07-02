@@ -27,23 +27,6 @@ const Land = (props) => {
   }, []);
   return (
     <>
-      {/* <Popup
-        trigger={
-          <Button
-            className={`w-100 h-100 rounded-0`}
-            variant={"primary"}
-            style={{
-              outline: "1px solid black",
-              boxShadow: "none",
-            }}
-            id={props.id}
-            key={props.id}
-          ></Button>
-        }
-        position="right top"
-      > */}
-      {/* <LandPopUp id={props.id} hexId={hexId} contract={props.contract} dispatch={dispatch} account={props.accounts} price={land.price} isOwned1={land.isOwned} ></LandPopUp> */}
-      {/* </Popup> */}
       <Button
         variant={classColor}
         className="rounded-0 p-0"
@@ -58,7 +41,7 @@ const Land = (props) => {
         key={props.id}
         disabled={props.disabled}
       >
-        {props.price}
+        {props.disabled ? "" : props.price}
       </Button>
     </>
   );
