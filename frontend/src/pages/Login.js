@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { getUser } from "../helpers/userHelper";
 const Login = () => {
   const [isUsernameError, setIsUsernameError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
-  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
   const usernameValidityHandler = (e) => {
@@ -22,9 +23,10 @@ const Login = () => {
     }
   };
 
-  const submitFormHandler = (e) => {
+  const submitFormHandler = async (e) => {
     e.preventDefault();
-    console.log(username);
+    await getUser(email, password);
+    console.log(email);
     console.log(password);
   };
 
@@ -32,18 +34,18 @@ const Login = () => {
     <div>
       <form className="form" onSubmit={submitFormHandler}>
         <TextField
-          error={isUsernameError}
+          // error={isUsernameError}
           label="Username"
           variant="outlined"
           sx={{ margin: "0.3rem 0" }}
-          onBlur={usernameValidityHandler}
-          helperText={
-            isUsernameError
-              ? `Username must contain more than 6 characters`
-              : ""
-          }
+          // onBlur={usernameValidityHandler}
+          // helperText={
+          //   isUsernameError
+          //     ? `Username must contain more than 6 characters`
+          //     : ""
+          // }
           size="small"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <TextField

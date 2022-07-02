@@ -53,3 +53,17 @@ export const updateLandById = async (item) => {
     console.log(e.message);
   }
 };
+
+export const updateLandByIdInCache = async (land) => {
+  try {
+    const map = JSON.parse(sessionStorage.getItem("map"));
+    const id = land.id.padStart(4, "0");
+    const [first, second] = [id.slice(0, 2), id.slice(2)];
+    map[+first][+second] = land;
+    sessionStorage.setItem("map", map);
+    return true;
+  } catch (e) {
+    console.log(e.message);
+    return false;
+  }
+};
