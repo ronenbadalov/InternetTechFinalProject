@@ -4,7 +4,14 @@ import classes from "./Legend.module.scss";
 const Legend = () => {
   return (
     <div className={classes["legend"]}>
-      will add colors my lands: yellow for sale: blue not for sale: red
+      <div className={classes["row"]}>
+        owned - not for sale
+        <div className={`${classes["boxColor"]} ${classes["yellow"]}`}></div>
+      </div>
+      <div className={classes["row"]}>
+        owned - for sale
+        <div className={`${classes["boxColor"]} ${classes["yellow"]}`}></div>
+      </div>
     </div>
   );
 };
