@@ -1,17 +1,17 @@
 import React from "react";
 import classes from "./Legend.module.scss";
+import LegendItem from "./LegendItem";
 
 const Legend = () => {
   return (
     <div className={classes["legend"]}>
-      <div className={classes["row"]}>
-        owned - not for sale
-        <div className={`${classes["boxColor"]} ${classes["yellow"]}`}></div>
-      </div>
-      <div className={classes["row"]}>
-        owned - for sale
-        <div className={`${classes["boxColor"]} ${classes["yellow"]}`}></div>
-      </div>
+      <LegendItem color="blue" text="Unowned - for sale" />
+      <LegendItem color="red" text="Not for sale" />
+      <LegendItem color="orange" text="My land - for sale" />
+      <LegendItem color="yellow" text="My land - not for sale" />
+      <LegendItem color="purple" text="Owned By Others" />
+      <LegendItem color="gray" text="Road" />
+      <LegendItem color="green" text="Park" />
     </div>
   );
 };

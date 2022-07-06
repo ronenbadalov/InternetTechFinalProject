@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Land from "./Land";
 import classes from "./Map.module.scss";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 const getMap = async () => {
   try {

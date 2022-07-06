@@ -1,41 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import Popup from "reactjs-popup";
-import classes from "./Land.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Land = (props) => {
-  // const classesStr = `${classes["land"]} ${classes[props.type]} ${
-  //   ["unowned", "owned", "owned-forSale"].includes(classes[props.type])
-  //     ? classes["clickable"]
-  //     : classes["unClickable"]
-  // }`;
   const [classColor, setClassColor] = useState("");
 
   useEffect(() => {
     switch (props.type) {
       case "land":
-        setClassColor("primary");
+        setClassColor("blue");
         break;
       case "road_land":
-        setClassColor("secondary");
+        setClassColor("gray");
         break;
       case "park_land":
-        setClassColor("success");
+        setClassColor("green");
         break;
     }
   }, []);
   return (
     <>
       <Button
-        variant={classColor}
-        className="rounded-0 p-0"
+        variant="link"
+        className={`rounded-0 p-0 ${classColor}`}
         style={{
           outline: "1px solid black",
           boxShadow: "none",
           fontSize: "8px",
           width: "30px",
           height: "30px",
+          borderColor: "transparent",
+          color: "white",
+          textDecoration: "none",
         }}
         id={props.id}
         key={props.id}
