@@ -29,16 +29,19 @@ export const addUser = async (newUser) => {
 };
 
 export const getUser = async (email, password) => {
+  let res;
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    res = await signInWithEmailAndPassword(auth, email, password);
     const getUserById = await fetch(
       `http://127.0.0.1:5000/user/get?id=${auth.currentUser.uid}`
     );
     const data = await getUserById.json();
     sessionStorage.setItem("user", JSON.stringify(data));
+    console.log(data);
     return data;
   } catch (e) {
     console.error(e.message);
+    return res;
   }
 };
 
@@ -48,4 +51,5 @@ export const getUserFromSession = () => {
 
 export const userLogOut = () => {
   sessionStorage.removeItem("user");
+  auth.signOut();
 };
