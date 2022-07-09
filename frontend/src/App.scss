@@ -9,10 +9,17 @@ body,
     margin: 1rem;
   }
 }
+
 .signupContainer {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 70%;
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: row;
+  height: 70%;
 }
 
 .form {
@@ -42,4 +49,36 @@ body,
 }
 .green {
   background-color: #8ac926 !important;
+}
+
+
+.reset {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reset__container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #dcdcdc;
+  padding: 30px;
+}
+.reset__textBox {
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.reset__btn {
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  border: none;
+  color: white;
+  background-color: black;
+}
+.reset div {
+  margin-top: 7px;
 }
