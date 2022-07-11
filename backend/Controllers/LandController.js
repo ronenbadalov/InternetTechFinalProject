@@ -79,3 +79,25 @@ export const updateLand = async (req, res) => {
     res.status(500).send("cant get all map");
   }
 };
+
+// const paintR = [3601, 3701, 3801, 3901, 4001, 4101, 4201, 4301, 4402, 4403, 4404, 4305, 4206, 4107,4007,3907,3807,3707,3607, 3602,3603,3604,3605,3606,3608,3609,3610,3611,3612,3708, 3809,3910,4011,4112];
+// const paintB = [5701, 5801, 5901, 6001, 6101, 6201, 6301, 6401, 6502, 6503, 6504, 6505, 6406, 6306, 6206,6106,6006,5906,5806,5706,5707,5708,5709, 5710, 5711, 5712, 5807, 5907, 6007, 6107, 6207, 6307, 6407,6508, 6509, 6510, 6511, 6412, 6312, 6212, 6112, 6012, 5912, 5812];
+
+// paintR.forEach(async num => {
+//   await fetch('http://localhost:5000/land/updateLand', {
+//           method: 'PUT',
+//           headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json'
+//           },
+//           body: JSON.stringify (
+//             {
+//               id: num,
+//               price: 0,
+//               disabled: true,
+//               forSale: false,
+//               type: "park_land"
+//             }
+//           )
+//       }).then(response => console.log(response.json()));
+// });
