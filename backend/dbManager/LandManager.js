@@ -46,13 +46,18 @@ export const updateLandById = async (item) => {
     const landRef = firestore.collection("lands").doc(`${item.id}`);
     const res = await landRef.update({
       price: item.price,
-      innerData: item.innerData,
+      disabled: item.disabled,
+      forSale: item.forSale,
+      type: item.type
     });
     return res;
   } catch (e) {
     console.log(e.message);
   }
 };
+
+
+
 
 export const updateLandByIdInCache = async (land) => {
   try {

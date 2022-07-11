@@ -8,11 +8,12 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import { addUser, getUser } from "../helpers/userHelper";
+import { addUser, getUser, checkIfEmailExists } from "../helpers/userHelper";
 
 
 const Signup = () => {
   const [isEmailError, setIsEmailError] = useState(false);
+  const [isEmailExists, setIsEmailExists] = useState(false);
   const [isUsernameError, setIsUsernameError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
   const [isSamePasswordError, setIsSamePasswordError] = useState(false);
@@ -62,9 +63,15 @@ const Signup = () => {
       !isPasswordError &&
       !isSamePasswordError &&
       !isUsernameError) {
-        await addUser({ email, password, name, type });
-        await getUser(email, password);
-        navigate('/emailVerification');
+        const isExists = await checkIfEmailExists(email);
+        if(isExists) {
+          setIsEmailExists(true);
+        } else {
+          setIsEmailExists(false);
+          await addUser({ email, password, name, type });
+          await getUser(email, password);
+          navigate('/emailVerification');
+        }
       }
   };
 
@@ -80,9 +87,7 @@ const Signup = () => {
           sx={{ margin: "0.3rem 0" }}
           onBlur={emailValidityHandler}
           helperText={
-            isEmailError
-              ? `Not a Valid Email!`
-              : ""
+              (isEmailError) ? `Not a Valid Email!` : ""
           }
           size="small"
           onChange={(e) => setEmail(e.target.value)}
@@ -150,6 +155,10 @@ const Signup = () => {
             <MenuItem value={1}>Buyer/Seller</MenuItem>
           </Select>
         </FormControl>
+        {
+        (isEmailExists) &&
+         (<h6 style={{color: "red", marginTop:"30px", marginLeft: "80px"}}>Email already Exists</h6>)
+        }
         <Button
           sx={{ margin: "auto", width: "150px", marginTop: "30px" }}
           variant="contained"
@@ -157,6 +166,7 @@ const Signup = () => {
         >
           Sign Up
         </Button>
+
         <div style={{marginTop: "20px"}}>
           Already have an account? <Link to="/login">Login</Link> now.
         </div>
