@@ -11,8 +11,7 @@ import CurUserContext from "../../store/curUser-context";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MUIModal from "../Modal/MUIModal";
 import UserOptions from "../UserOptions/UserOptions";
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
   const curUserCtx = useContext(CurUserContext);
@@ -39,10 +38,8 @@ const Nav = () => {
   const handleLogout = () => {
     curUserCtx.logout();
     userLogOut();
-    navigate('/login');
+    navigate("/login");
   };
-
-  console.log(curUserCtx);
   return (
     <>
       <ThemeProvider theme={darkTheme}>
