@@ -8,7 +8,7 @@ import { Button } from "@mui/material";
 
 function Reset() {
   const [isSent, setIsSent] = useState(false);
-  const [isEmailError, setIsEmailError] = useState(true);
+  const [isEmailError, setIsEmailError] = useState(false);
   const [email, setEmail] = useState("");
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function Reset() {
   };
 
   const submitFormHandler = () => {
-    if(!isEmailError) {
+    if(!isEmailError && email.length > 0) {
         sendPasswordResetEmail(auth, email);
         setIsSent(true);
       }
