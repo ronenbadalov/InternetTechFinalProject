@@ -31,7 +31,6 @@ export const getUser = async (req, res) => {
   try {
     const queryObject = url.parse(req.url, true).query;
     const user = await getUserById(queryObject.id);
-    console.log(user);
     res.status(200).send(user);
   } catch (err) {
     console.log(err);

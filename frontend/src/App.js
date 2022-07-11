@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import Reset from "./pages/Reset";
 import Nav from "./components/layout/Nav";
 import { useContext, useEffect } from "react";
-import { getUserFromSession } from "./helpers/userHelper";
+import { getUserFromSession, userLogOut } from "./helpers/userHelper";
 import CurUserContext from "./store/curUser-context";
 import EmailVerification from "./pages/EmailVerification";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -17,9 +17,15 @@ const App = () => {
   const [user, loading, error] = useAuthState(auth);
   // auth.signOut();
   useEffect(() => {
-    const userFromSession = getUserFromSession();
-    if (!userFromSession) return;
-    curUserCtx.login(userFromSession);
+    (async () => {
+      const userFromSession = await getUserFromSession();
+      if (!userFromSession) {
+        userLogOut();
+      }
+      console.log(userFromSession);
+      curUserCtx.login(userFromSession);
+    })();
+
   }, []);
 
   console.log(user);
@@ -37,7 +43,6 @@ const App = () => {
             />
           </>
         ) : !user ? (
-          // {/* {!curUserCtx.user ? ( */}
           <>
             <Route path="*" element={<Navigate replace to="/login" />} />
             <Route path="/login" element={<Login />} />
@@ -49,6 +54,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </>
+
         )}
       </Routes>
     </div>
