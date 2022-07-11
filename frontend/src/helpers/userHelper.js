@@ -2,7 +2,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithEmailAndPassword,
-  fetchSignInMethodsForEmail
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import { auth } from "../config/firebase.js";
 
@@ -13,7 +13,7 @@ export const addUser = async (newUser) => {
       newUser.email,
       newUser.password
     );
-    if(res.error) return res;
+    if (res.error) return res;
     sendEmailVerification(auth.currentUser);
     console.log(res);
     newUser.uid = res.user.uid;
@@ -28,13 +28,12 @@ export const addUser = async (newUser) => {
   } catch (e) {
     console.error(e.message);
   }
-}
+};
 
 export const checkIfEmailExists = async (email) => {
   let isExists = false;
   try {
-    await fetchSignInMethodsForEmail(auth, email)
-    .then((signInMethods) => {
+    await fetchSignInMethodsForEmail(auth, email).then((signInMethods) => {
       if (signInMethods.length) {
         isExists = true;
       }
@@ -43,7 +42,7 @@ export const checkIfEmailExists = async (email) => {
     console.error(e.message);
   }
   return isExists;
-}
+};
 
 export const getUser = async (email, password) => {
   let res;
@@ -53,19 +52,21 @@ export const getUser = async (email, password) => {
       `http://127.0.0.1:5000/user/get?id=${auth.currentUser.uid}`
     );
     const data = await getUserById.json();
-    sessionStorage.setItem("user", JSON.stringify(data));
+    sessionStorage.setItem("user", data.id);
     return data;
   } catch (e) {
     console.error(e.message);
     return res;
   }
-}
+};
 
-export const getUserFromSession = () => {
-  return JSON.parse(sessionStorage.getItem("user"));
-}
+export const getUserFromSession = async () => {
+  const userID = sessionStorage.getItem("user");
+  const userData = await fetch(`http://127.0.0.1:5000/user/get?id=${userID}`);
+  return await userData.json();
+};
 
 export const userLogOut = () => {
   sessionStorage.removeItem("user");
   auth.signOut();
-}
+};

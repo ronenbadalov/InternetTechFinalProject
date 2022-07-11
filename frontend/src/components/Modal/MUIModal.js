@@ -20,6 +20,7 @@ const style = {
 const MUIModal = (props) => {
   return (
     <Modal
+      sx={props.sx}
       open={props.open}
       onClose={props.onClose}
       closeAfterTransition

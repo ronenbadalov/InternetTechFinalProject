@@ -11,11 +11,13 @@ import CurUserContext from "../../store/curUser-context";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MUIModal from "../Modal/MUIModal";
 import UserOptions from "../UserOptions/UserOptions";
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Nav = () => {
   const curUserCtx = useContext(CurUserContext);
+  const [user, loading, error] = useAuthState(auth);
   const [showModal, setShowModal] = React.useState(false);
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ const Nav = () => {
   const handleLogout = () => {
     curUserCtx.logout();
     userLogOut();
-    navigate('/login');
+    navigate("/login");
   };
 
   console.log(curUserCtx);
@@ -56,7 +58,11 @@ const Nav = () => {
             <Typography variant="p" component="div" sx={{ margin: "0 1rem" }}>
               {`Hi ${
                 curUserCtx.user
-                  ? `${curUserCtx.user.name} | Balance: ${curUserCtx.user.balance}$`
+                  ? `${curUserCtx.user.name} ${`${
+                      curUserCtx.user.isOwner
+                        ? `| Balance: ${curUserCtx.user.balance}$`
+                        : ""
+                    }`}`
                   : "Guest"
               }`}
             </Typography>
@@ -93,7 +99,11 @@ const Nav = () => {
           </Toolbar>
         </AppBar>
       </ThemeProvider>
-      <MUIModal open={showModal} onClose={handleModalClose}>
+      <MUIModal
+        // sx={{ width: "300px", margin: "0 auto" }}
+        open={showModal}
+        onClose={handleModalClose}
+      >
         <UserOptions />
       </MUIModal>
     </>

@@ -6,50 +6,52 @@ import Signup from "./pages/Signup";
 import Reset from "./pages/Reset";
 import Nav from "./components/layout/Nav";
 import { useContext, useEffect } from "react";
-import { getUserFromSession } from "./helpers/userHelper";
+import { getUserFromSession, userLogOut } from "./helpers/userHelper";
 import CurUserContext from "./store/curUser-context";
 import EmailVerification from "./pages/EmailVerification";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from './config/firebase.js';
+import { auth } from "./config/firebase.js";
 
 const App = () => {
   const curUserCtx = useContext(CurUserContext);
   const [user, loading, error] = useAuthState(auth);
 
   useEffect(() => {
-    const userFromSession = getUserFromSession();
-    curUserCtx.login(userFromSession);
-    console.log(curUserCtx);
+    (async () => {
+      const userFromSession = await getUserFromSession();
+      if (!userFromSession) {
+        userLogOut();
+      }
+      console.log(userFromSession);
+      curUserCtx.login(userFromSession);
+    })();
   }, []);
 
   return (
     <div className="App">
       <Nav />
       <Routes>
-        {
-        (user && !user.emailVerified) ? 
-          (
+        {user && !user.emailVerified ? (
           <>
-          <Route path="/emailVerification" element={<EmailVerification />} />
-          <Route path="*" element={<Navigate replace to="emailVerification" />} />
+            <Route path="/emailVerification" element={<EmailVerification />} />
+            <Route
+              path="*"
+              element={<Navigate replace to="emailVerification" />}
+            />
           </>
-          ) : (
-            (!user) ? 
-            (
-              <>
-              <Route path="*" element={<Navigate replace to="/login" />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/reset" element={<Reset />} />
-              </>
-            ) : (
-              <>
-              <Route path="/" element={<Home />} />
-              <Route path="*" element={<Navigate replace to="/" />} />
-              </>
-            )
-          )
-        }
+        ) : !user ? (
+          <>
+            <Route path="*" element={<Navigate replace to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/reset" element={<Reset />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
+          </>
+        )}
       </Routes>
     </div>
   );
