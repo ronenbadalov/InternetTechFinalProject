@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
+
 const Nav = () => {
   const curUserCtx = useContext(CurUserContext);
   const [user, loading, error] = useAuthState(auth);
@@ -43,8 +44,6 @@ const Nav = () => {
     userLogOut();
     navigate("/login");
   };
-
-  console.log(curUserCtx);
   return (
     <>
       <ThemeProvider theme={darkTheme}>
