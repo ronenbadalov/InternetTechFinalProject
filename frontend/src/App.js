@@ -25,9 +25,9 @@ const App = () => {
       console.log(userFromSession);
       curUserCtx.login(userFromSession);
     })();
-
   }, []);
 
+  // auth.signOut();
   console.log(user);
 
   return (
@@ -54,7 +54,6 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </>
-
         )}
       </Routes>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -36,6 +36,7 @@ const Land = (props) => {
         id={props.id}
         key={props.id}
         disabled={props.disabled}
+        onClick={props.onClick}
       >
         {props.disabled ? "" : props.price}
       </Button>
@@ -43,4 +44,4 @@ const Land = (props) => {
   );
 };
 
-export default Land;
+export default memo(Land);

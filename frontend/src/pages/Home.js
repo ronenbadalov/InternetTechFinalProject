@@ -15,6 +15,7 @@ const Home = () => {
       // console.log("done");
     })();
   }, []);
+  console.log("render in home");
   return (
     <div className="home">
       {isLoading && <Loader />}
