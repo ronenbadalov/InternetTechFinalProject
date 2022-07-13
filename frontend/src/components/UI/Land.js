@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -18,6 +18,20 @@ const Land = (props) => {
         break;
     }
   }, []);
+
+  const showLandDataInModal = () => {
+    props.setLandModalData({
+      id: props.id,
+      type: props.type,
+      price: props.price,
+      owner: props.owner,
+      forSale: props.forSale,
+      isOccupied: props.isOccupied,
+      disabled: props.disabled,
+    });
+    props.onClick();
+  };
+
   return (
     <>
       <Button
@@ -36,6 +50,7 @@ const Land = (props) => {
         id={props.id}
         key={props.id}
         disabled={props.disabled}
+        onClick={showLandDataInModal}
       >
         {props.disabled ? "" : props.price}
       </Button>

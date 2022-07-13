@@ -13,10 +13,10 @@ router.get("/get", getLand);
 router.get("/getAll", getAllMap);
 router.post("/create", createNewLand);
 router.post("/createMap", createAllMap);
-router.put("/update", () => {
-  console.log("update land");
-});
-router.put("/updateLand", updateLand);
+// router.put("/update", () => {
+//   console.log("update land");
+// });
+router.put("/update", updateLand);
 router.delete("/delete", () => {
   console.log("delete land");
 });

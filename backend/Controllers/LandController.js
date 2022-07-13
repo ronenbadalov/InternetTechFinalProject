@@ -76,7 +76,7 @@ export const updateLand = async (req, res) => {
     res.status(200).send(response);
   } catch (err) {
     console.log(err);
-    res.status(500).send("cant get all map");
+    res.status(500).send("error updating land");
   }
 };
 

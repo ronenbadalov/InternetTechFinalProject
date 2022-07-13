@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import {useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import {
   Button,
@@ -9,7 +9,6 @@ import {
   Select,
 } from "@mui/material";
 import { addUser, getUser, checkIfEmailExists } from "../helpers/userHelper";
-
 
 const Signup = () => {
   const [isEmailError, setIsEmailError] = useState(false);
@@ -59,36 +58,36 @@ const Signup = () => {
 
   const submitFormHandler = async (e) => {
     e.preventDefault();
-    if(!isEmailError &&
+    if (
+      !isEmailError &&
       !isPasswordError &&
       !isSamePasswordError &&
-      !isUsernameError) {
-        const isExists = await checkIfEmailExists(email);
-        if(isExists) {
-          setIsEmailExists(true);
-        } else {
-          setIsEmailExists(false);
-          await addUser({ email, password, name, type });
-          await getUser(email, password);
-          navigate('/emailVerification');
-        }
+      !isUsernameError
+    ) {
+      const isExists = await checkIfEmailExists(email);
+      if (isExists) {
+        setIsEmailExists(true);
+      } else {
+        setIsEmailExists(false);
+        await addUser({ email, password, name, type });
+        await getUser(email, password);
+        navigate("/emailVerification");
       }
+    }
   };
 
   return (
     <div className="signupContainer">
       <form className="form" onSubmit={submitFormHandler}>
-      <h1 style={{textAlign: "center", fontSize: "40px"}}>Register</h1>
+        <h1 style={{ textAlign: "center", fontSize: "40px" }}>Register</h1>
 
         <TextField
           error={isEmailError}
           label="Email"
-          variant="outlined"
+          variant="standard"
           sx={{ margin: "0.3rem 0" }}
           onBlur={emailValidityHandler}
-          helperText={
-              (isEmailError) ? `Not a Valid Email!` : ""
-          }
+          helperText={isEmailError ? `Not a Valid Email!` : ""}
           size="small"
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -96,13 +95,11 @@ const Signup = () => {
         <TextField
           error={isUsernameError}
           label="Name"
-          variant="outlined"
+          variant="standard"
           sx={{ margin: "0.3rem 0" }}
           onBlur={usernameValidityHandler}
           helperText={
-            isUsernameError
-              ? `Name must contain more than 4 characters`
-              : ""
+            isUsernameError ? `Name must contain more than 4 characters` : ""
           }
           size="small"
           onChange={(e) => setName(e.target.value)}
@@ -113,7 +110,7 @@ const Signup = () => {
           label="Password"
           type="password"
           autoComplete="current-password"
-          variant="outlined"
+          variant="standard"
           sx={{ margin: "0.5rem 0" }}
           onBlur={passwordValidityHandler}
           helperText={
@@ -125,23 +122,19 @@ const Signup = () => {
           size="small"
           required
         />
-         <TextField
+        <TextField
           error={isSamePasswordError}
           label="Password Validator"
           type="password"
           autoComplete="current-password"
-          variant="outlined"
+          variant="standard"
           sx={{ margin: "0.5rem 0" }}
           onBlur={samePasswordValidityHandler}
-          helperText={
-            isSamePasswordError
-              ? `Passwords don't match`
-              : ""
-          }
+          helperText={isSamePasswordError ? `Passwords don't match` : ""}
           size="small"
           required
         />
-        <FormControl>
+        <FormControl sx={{ marginTop: "1rem" }}>
           <InputLabel id="typeSelectLabel">Type</InputLabel>
           <Select
             labelId="typeSelectLabel"
@@ -150,15 +143,17 @@ const Signup = () => {
             label="Type"
             size="small"
             onChange={(e) => setType(e.target.value)}
+            variant="standard"
           >
             <MenuItem value={0}>Guest</MenuItem>
             <MenuItem value={1}>Buyer/Seller</MenuItem>
           </Select>
         </FormControl>
-        {
-        (isEmailExists) &&
-         (<h6 style={{color: "red", marginTop:"30px", marginLeft: "80px"}}>Email already Exists</h6>)
-        }
+        {isEmailExists && (
+          <h6 style={{ color: "red", marginTop: "30px", marginLeft: "80px" }}>
+            Email already Exists
+          </h6>
+        )}
         <Button
           sx={{ margin: "auto", width: "150px", marginTop: "30px" }}
           variant="contained"
@@ -167,7 +162,7 @@ const Signup = () => {
           Sign Up
         </Button>
 
-        <div style={{marginTop: "20px"}}>
+        <div style={{ marginTop: "20px" }}>
           Already have an account? <Link to="/login">Login</Link> now.
         </div>
       </form>

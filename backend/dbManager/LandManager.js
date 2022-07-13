@@ -43,6 +43,7 @@ export const getAll = async () => {
 
 export const updateLandById = async (item) => {
   try {
+    console.log(item.id);
     const landRef = firestore.collection("lands").doc(`${item.id}`);
     const res = await landRef.update({
       ...item,
