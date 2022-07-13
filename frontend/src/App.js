@@ -15,20 +15,16 @@ import { auth } from "./config/firebase.js";
 const App = () => {
   const curUserCtx = useContext(CurUserContext);
   const [user, loading, error] = useAuthState(auth);
-  // auth.signOut();
   useEffect(() => {
     (async () => {
       const userFromSession = await getUserFromSession();
       if (!userFromSession) {
         userLogOut();
+        auth.signOut();
       }
-      console.log(userFromSession);
       curUserCtx.login(userFromSession);
     })();
-
   }, []);
-
-  console.log(user);
 
   return (
     <div className="App">
@@ -54,7 +50,6 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </>
-
         )}
       </Routes>
     </div>

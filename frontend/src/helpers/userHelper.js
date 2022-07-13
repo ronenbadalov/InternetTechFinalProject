@@ -61,9 +61,16 @@ export const getUser = async (email, password) => {
 };
 
 export const getUserFromSession = async () => {
-  const userID = sessionStorage.getItem("user");
-  const userData = await fetch(`http://127.0.0.1:5000/user/get?id=${userID}`);
-  return await userData.json();
+  try {
+    const userID = sessionStorage.getItem("user");
+    if (!userID) return null;
+    const res = await fetch(`http://127.0.0.1:5000/user/get?id=${userID}`);
+    if (!res.ok) throw new Error("User not found");
+    return await res.json();
+  } catch (e) {
+    console.error(e.message);
+    return false;
+  }
 };
 
 export const userLogOut = () => {
