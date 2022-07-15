@@ -39,7 +39,7 @@ const Map = () => {
         setMapData(newArr);
         sessionStorage.setItem("map", JSON.stringify(newArr));
       })();
-    } else {
+    } else {  
       setMapData(JSON.parse(sessionStorage.getItem("map")));
     }
   }, []);
@@ -57,7 +57,9 @@ const Map = () => {
                       id={land.id}
                       type={land.type}
                       price={land.price}
+                      isOcupied={land.isOcupied}
                       owner={land.owner}
+                      forSale={land.forSale}
                       disabled={land.disabled}
                       onClick={handleModalOpen}
                       setLandModalData={setLandModalData}
