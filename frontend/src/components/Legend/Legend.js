@@ -5,11 +5,11 @@ import LegendItem from "./LegendItem";
 const Legend = () => {
   return (
     <div className={classes["legend"]}>
-      <LegendItem color="blue" text="Unowned - for sale" />
-      <LegendItem color="red" text="Not for sale" />
+      <LegendItem color="blue" text="Unowned" />
       <LegendItem color="orange" text="My land - for sale" />
       <LegendItem color="yellow" text="My land - not for sale" />
-      <LegendItem color="purple" text="Owned By Others" />
+      <LegendItem color="purple" text="For sale" />
+      <LegendItem color="red" text="Not for sale" />
       <LegendItem color="gray" text="Road" />
       <LegendItem color="green" text="Park" />
     </div>
