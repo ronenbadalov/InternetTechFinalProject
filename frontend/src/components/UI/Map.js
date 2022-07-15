@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Land from "./Land";
 import classes from "./Map.module.scss";
 import { Row, Col } from "react-bootstrap";
+import MUIModal from "../Modal/MUIModal";
+import LandModalInfo from "../LandModalInfo/LandModalInfo";
 
 const getMap = async () => {
   try {
@@ -16,6 +18,16 @@ const getMap = async () => {
 
 const Map = () => {
   const [mapData, setMapData] = useState([]);
+  const [landModalData, setLandModalData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModalOpen = useCallback(() => {
+    setShowModal(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setShowModal(false);
+  }, []);
 
   useEffect(() => {
     if (!sessionStorage.getItem("map")) {
@@ -27,33 +39,52 @@ const Map = () => {
         setMapData(newArr);
         sessionStorage.setItem("map", JSON.stringify(newArr));
       })();
-    } else {
+    } else {  
       setMapData(JSON.parse(sessionStorage.getItem("map")));
     }
   }, []);
 
+  const MapComp = useCallback(() => {
+    return (
+      <div className={classes["container"]} style={{ margin: "30px" }}>
+        {mapData.map((row, i) => {
+          return (
+            <Row className={classes["row"]} key={i} xs={"auto"}>
+              {row.map((land) => {
+                return (
+                  <Col key={land.id} className="p-0 m-0">
+                    <Land
+                      id={land.id}
+                      type={land.type}
+                      price={land.price}
+                      isOcupied={land.isOcupied}
+                      owner={land.owner}
+                      forSale={land.forSale}
+                      disabled={land.disabled}
+                      onClick={handleModalOpen}
+                      setLandModalData={setLandModalData}
+                    />
+                  </Col>
+                );
+              })}
+            </Row>
+          );
+        })}
+      </div>
+    );
+  }, [mapData]);
+
   return (
-    <div className={classes["container"]} style={{ margin: "30px" }}>
-      {mapData.map((row, i) => {
-        return (
-          <Row className={classes["row"]} key={i} xs={"auto"}>
-            {row.map((land) => {
-              return (
-                <Col key={land.id} className="p-0 m-0">
-                  <Land
-                    id={land.id}
-                    type={land.type}
-                    price={land.price}
-                    owner={land.owner}
-                    disabled={land.disabled}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
-        );
-      })}
-    </div>
+    <>
+      <MapComp />
+      <MUIModal
+        open={showModal}
+        onClose={handleModalClose}
+        sx={{ maxWidth: "40%" }}
+      >
+        <LandModalInfo landData={landModalData} />
+      </MUIModal>
+    </>
   );
 };
 

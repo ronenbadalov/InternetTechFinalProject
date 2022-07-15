@@ -1,14 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState, useContext } from "react";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CurUserContext from "../../store/curUser-context";
 
 const Land = (props) => {
   const [classColor, setClassColor] = useState("");
+  const curUserCtx = useContext(CurUserContext);
+  const currentUser = curUserCtx.user;
 
   useEffect(() => {
     switch (props.type) {
       case "land":
-        setClassColor("blue");
+        // console.log("Land ID: " + props.id);
+        // console.log("Land forSale: " + props.forSale);
+        // console.log("Land owner: " + props.owner);
+        // console.log("Land isOcupied: " + props.isOcupied);
+        if(props.isOcupied) {
+          console.log(props.owner);
+          console.log(currentUser);
+          if(props.owner === currentUser.id) {
+            if(props.forSale)
+              setClassColor("orange");
+            else 
+              setClassColor("yellow");
+          } else {
+            if(props.forSale)
+              setClassColor("purple");
+            else 
+              setClassColor("red");
+          }
+        } else {
+          setClassColor("blue");
+        }
         break;
       case "road_land":
         setClassColor("gray");
@@ -18,6 +41,20 @@ const Land = (props) => {
         break;
     }
   }, []);
+
+  const showLandDataInModal = () => {
+    props.setLandModalData({
+      id: props.id,
+      type: props.type,
+      price: props.price,
+      owner: props.owner,
+      forSale: props.forSale,
+      isOccupied: props.isOccupied,
+      disabled: props.disabled,
+    });
+    props.onClick();
+  };
+
   return (
     <>
       <Button
@@ -36,6 +73,7 @@ const Land = (props) => {
         id={props.id}
         key={props.id}
         disabled={props.disabled}
+        onClick={showLandDataInModal}
       >
         {props.disabled ? "" : props.price}
       </Button>

@@ -3,7 +3,6 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
 
 const style = {
   position: "absolute",
@@ -20,7 +19,6 @@ const style = {
 const MUIModal = (props) => {
   return (
     <Modal
-      sx={props.sx}
       open={props.open}
       onClose={props.onClose}
       closeAfterTransition
@@ -30,7 +28,7 @@ const MUIModal = (props) => {
       }}
     >
       <Fade in={props.open}>
-        <Box sx={style}>{props.children}</Box>
+        <Box sx={{ ...style, ...props.sx }}>{props.children}</Box>
       </Fade>
     </Modal>
   );

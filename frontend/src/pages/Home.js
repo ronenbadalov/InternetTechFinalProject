@@ -12,7 +12,6 @@ const Home = () => {
       setIsLoading(true);
       await wait(3000);
       setIsLoading(false);
-      // console.log("done");
     })();
   }, []);
   return (

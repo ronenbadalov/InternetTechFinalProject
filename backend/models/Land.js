@@ -5,9 +5,10 @@ const Types = {
 };
 
 export default class Land {
-  constructor(id, type, isOcupied, disabled, price, forSale, innerData) {
+  constructor(id, type, owner, isOcupied, disabled, price, forSale, innerData) {
     this.id = id;
     this.type = Types[type];
+    this.owner = owner;
     this.isOcupied = isOcupied;
     this.disabled = disabled;
     this.price = price;

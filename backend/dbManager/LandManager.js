@@ -41,8 +41,37 @@ export const getAll = async () => {
   }
 };
 
+// export const getAllAndReplace = async () => {
+//   try {
+//     const landRef = firestore.collection("lands");
+//     const snapshot = await landRef.get();
+//     const resArr = [];
+//     snapshot.forEach((document) => {
+//       let doc = document.data();
+//       let newObject = {
+//         disabled: doc.disabled,
+//         forSale: doc.forSale,
+//         id: doc.id,
+//         innerData: doc.innerData,
+//         owner: "",
+//         price: doc.price,
+//         type: doc.type
+//       }
+//       resArr.push(newObject);
+//     });
+//     console.log(resArr);
+//     for(const land of resArr) {
+//       updateLandById(land);
+//     }
+//     return resArr;
+//   } catch (e) {
+//     console.log(e.message);
+//   }
+// };
+
 export const updateLandById = async (item) => {
   try {
+    console.log(item.id);
     const landRef = firestore.collection("lands").doc(`${item.id}`);
     const res = await landRef.update({
       ...item,
@@ -52,6 +81,7 @@ export const updateLandById = async (item) => {
     console.log(e.message);
   }
 };
+
 
 export const updateLandByIdInCache = async (land) => {
   try {

@@ -29,10 +29,10 @@ function Reset() {
   };
 
   const submitFormHandler = () => {
-    if(!isEmailError && email.length > 0) {
-        sendPasswordResetEmail(auth, email);
-        setIsSent(true);
-      }
+    if (!isEmailError && email.length > 0) {
+      sendPasswordResetEmail(auth, email);
+      setIsSent(true);
+    }
   };
 
   return (
@@ -44,22 +44,19 @@ function Reset() {
         <TextField
           error={isEmailError}
           label="Email"
-          variant="outlined"
+          variant="standard"
           sx={{ margin: "0.3rem 0" }}
           onBlur={emailValidityHandler}
-          helperText={
-            isEmailError
-              ? `Not A Valid Email`
-              : ""
-          }
+          helperText={isEmailError ? `Not A Valid Email` : ""}
           size="small"
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        {
-        (isSent) &&
-         (<h6 style={{color: "green", marginTop:"30px", marginLeft: "40px"}}>Password Reset has been sent!</h6>)
-        }
+        {isSent && (
+          <h6 style={{ color: "green", marginTop: "30px", marginLeft: "40px" }}>
+            Password Reset has been sent!
+          </h6>
+        )}
         <Button
           sx={{ margin: "auto", width: "fit-content", marginTop: "30px" }}
           variant="contained"
@@ -68,7 +65,7 @@ function Reset() {
         >
           Send Password Reset Email
         </Button>
-        <div style={{marginTop: "20px"}}>
+        <div style={{ marginTop: "20px" }}>
           Don't have an account? <Link to="/register">Register</Link> now.
         </div>
       </div>
