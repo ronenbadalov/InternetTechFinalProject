@@ -73,6 +73,31 @@ export const getUserFromSession = async () => {
   }
 };
 
+// CONTINUE HERE
+export const changeUserBalance = async (landPrice) => {
+  try {
+    const userID = sessionStorage.getItem("user");
+    if (!userID) return null;
+    const resGetUser = await fetch(
+      `http://127.0.0.1:5000/user/get?id=${userID}`
+    );
+    const user = await resGetUser.json();
+    // const resUpdateUser = await fetch(
+    //   `http://127.0.0.1:5000/user/get?id=${userID}`,
+    //   {
+    //     method: "PUT",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(user.balance - landPrice),
+    //   }
+    // );
+    // if (!res.ok) throw new Error("User not found");
+    // return await res.json();
+  } catch (e) {
+    console.error(e.message);
+    return false;
+  }
+};
+
 export const userLogOut = () => {
   sessionStorage.removeItem("user");
   auth.signOut();

@@ -69,26 +69,31 @@ export const getAll = async () => {
 //   }
 // };
 
-export const updateLandById = async (item) => {
+export const updateLandById = async (id, data) => {
   try {
-    console.log(item.id);
-    const landRef = firestore.collection("lands").doc(`${item.id}`);
+    const landRef = firestore.collection("lands").doc(id);
     const res = await landRef.update({
-      ...item,
+      ...data,
     });
+    // console.log(landRef);
+    // console.log(data);
+    // console.log(res);
     return res;
   } catch (e) {
     console.log(e.message);
   }
 };
 
-
-export const updateLandByIdInCache = async (land) => {
+export const updateLandByIdInCache = async (id, data) => {
   try {
+    console.log(id, data);
     const map = JSON.parse(sessionStorage.getItem("map"));
-    const id = land.id.padStart(4, "0");
-    const [first, second] = [id.slice(0, 2), id.slice(2)];
-    map[+first][+second] = land;
+    // const id = land.id.padStart(4, "0");
+    const [first, second] = [
+      id.padStart(4, "0").slice(0, 2),
+      id.padStart(4, "0").slice(2),
+    ];
+    map[+first][+second] = { ...data };
     sessionStorage.setItem("map", map);
     return true;
   } catch (e) {
