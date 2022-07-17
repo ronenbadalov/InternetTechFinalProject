@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { updateLand } from "../../helpers/landHelper";
+import { buyLand } from "../../helpers/landHelper";
 import CurUserContext from "../../store/curUser-context";
 import classes from "./LandModalInfo.module.scss";
 const LandModalInfo = ({ landData, onClose }) => {
@@ -24,8 +24,6 @@ const LandModalInfo = ({ landData, onClose }) => {
     marginRight: "auto",
     maxWidth: "200px",
   };
-  console.log(landData);
-  console.log(curUserCtx.user);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -33,8 +31,9 @@ const LandModalInfo = ({ landData, onClose }) => {
       alert("You don't have enough money to buy this land");
       return;
     }
-    const res = await updateLand(landData.id, {
-      isOcupied: curUserCtx.user.id,
+    const res = await buyLand(landData.id, curUserCtx.user.id, landData.price, {
+      owner: curUserCtx.user.id,
+      isOcupied: true,
     });
     console.log(res);
   };

@@ -4,7 +4,7 @@ import {
   getLandById,
   setLand,
   updateLandById,
-  updateLandByIdInCache
+  updateLandByIdInCache,
 } from "../dbManager/LandManager.js";
 import url from "url";
 export const createNewLand = async (req, res) => {
@@ -84,8 +84,7 @@ export const getAllMap = async (req, res) => {
 
 export const updateLand = async (req, res) => {
   try {
-    console.log(req.body);
-    const response = await updateLandById(req.body);
+    const response = await updateLandById(req.params.id, req.body);
     res.status(200).send(response);
   } catch (err) {
     console.log(err);
@@ -93,11 +92,9 @@ export const updateLand = async (req, res) => {
   }
 };
 
-
 export const updateLandInCache = async (req, res) => {
   try {
-    console.log(req.body);
-    const response = await updateLandByIdInCache(req.body);
+    const response = await updateLandByIdInCache(req.params.id, req.body);
     res.status(200).send(response);
   } catch (err) {
     console.log(err);
@@ -108,20 +105,20 @@ export const updateLandInCache = async (req, res) => {
 // const paintB = [5701, 5801, 5901, 6001, 6101, 6201, 6301, 6401, 6502, 6503, 6504, 6505, 6406, 6306, 6206,6106,6006,5906,5806,5706,5707,5708,5709, 5710, 5711, 5712, 5807, 5907, 6007, 6107, 6207, 6307, 6407,6508, 6509, 6510, 6511, 6412, 6312, 6212, 6112, 6012, 5912, 5812];
 
 // paintR.forEach(async num => {
-  // await fetch('http://localhost:5000/land/updateLand', {
-  //         method: 'PUT',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Accept': 'application/json'
-  //         },
-  //         body: JSON.stringify (
-  //           {
-  //             id: num,
-  //             price: 0,
-  //             disabled: true,
-  //             forSale: false,
-  //             type: "park_land"
-  //           }
-  //         )
-  //     }).then(response => console.log(response.json()));
+// await fetch('http://localhost:5000/land/updateLand', {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'Accept': 'application/json'
+//         },
+//         body: JSON.stringify (
+//           {
+//             id: num,
+//             price: 0,
+//             disabled: true,
+//             forSale: false,
+//             type: "park_land"
+//           }
+//         )
+//     }).then(response => console.log(response.json()));
 // });

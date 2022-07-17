@@ -4,6 +4,7 @@ import classes from "./Map.module.scss";
 import { Row, Col } from "react-bootstrap";
 import MUIModal from "../Modal/MUIModal";
 import LandModalInfo from "../LandModalInfo/LandModalInfo";
+import Loader from "../Loader/Loader";
 
 const getMap = async () => {
   try {
@@ -20,6 +21,7 @@ const Map = () => {
   const [mapData, setMapData] = useState([]);
   const [landModalData, setLandModalData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleModalOpen = useCallback(() => {
     setShowModal(true);
@@ -30,6 +32,7 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     if (!sessionStorage.getItem("map")) {
       (async () => {
         const arr = await getMap();
@@ -42,35 +45,41 @@ const Map = () => {
     } else {
       setMapData(JSON.parse(sessionStorage.getItem("map")));
     }
+    setIsLoading(false);
   }, []);
 
   const MapComp = useCallback(() => {
     return (
-      <div className={classes["container"]} style={{ margin: "30px" }}>
-        {mapData.map((row, i) => {
-          return (
-            <Row className={classes["row"]} key={i} xs={"auto"}>
-              {row.map((land) => {
-                return (
-                  <Col key={land.id} className="p-0 m-0">
-                    <Land
-                      id={land.id}
-                      type={land.type}
-                      price={land.price}
-                      isOcupied={land.isOcupied}
-                      owner={land.owner}
-                      forSale={land.forSale}
-                      disabled={land.disabled}
-                      onClick={handleModalOpen}
-                      setLandModalData={setLandModalData}
-                    />
-                  </Col>
-                );
-              })}
-            </Row>
-          );
-        })}
-      </div>
+      <>
+        {isLoading && <Loader />}
+        {!isLoading && (
+          <div className={classes["container"]} style={{ margin: "30px" }}>
+            {mapData.map((row, i) => {
+              return (
+                <Row className={classes["row"]} key={i} xs={"auto"}>
+                  {row.map((land) => {
+                    return (
+                      <Col key={land.id} className="p-0 m-0">
+                        <Land
+                          id={land.id}
+                          type={land.type}
+                          price={land.price}
+                          isOcupied={land.isOcupied}
+                          owner={land.owner}
+                          forSale={land.forSale}
+                          disabled={land.disabled}
+                          onClick={handleModalOpen}
+                          setLandModalData={setLandModalData}
+                        />
+                      </Col>
+                    );
+                  })}
+                </Row>
+              );
+            })}
+          </div>
+        )}
+      </>
     );
   }, [mapData]);
 

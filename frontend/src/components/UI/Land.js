@@ -9,8 +9,13 @@ const Land = (props) => {
   const currentUser = curUserCtx.user;
 
   useEffect(() => {
+    if (props.id == 100) {
+      console.log(props);
+      console.log(currentUser);
+    }
     switch (props.type) {
       case "land":
+<<<<<<< HEAD
         // console.log("Land ID: " + props.id);
         // console.log("Land forSale: " + props.forSale);
         // console.log("Land owner: " + props.owner);
@@ -18,6 +23,11 @@ const Land = (props) => {
         if (props.isOcupied) {
           console.log(props.owner);
           console.log(currentUser);
+=======
+        if (props.isOcupied) {
+          // console.log(props.owner);
+          // console.log(currentUser);
+>>>>>>> origin/main
           if (props.owner === currentUser.id) {
             if (props.forSale) setClassColor("orange");
             else setClassColor("yellow");

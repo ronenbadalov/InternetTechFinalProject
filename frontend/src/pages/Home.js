@@ -5,24 +5,24 @@ import Map from "../components/UI/Map";
 
 const wait = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      await wait(3000);
-      setIsLoading(false);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     setIsLoading(true);
+  //     await wait(3000);
+  //     setIsLoading(false);
+  //   })();
+  // }, []);
   return (
     <div className="home">
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
 
-      {!isLoading && (
-        <>
-          <Legend /> <Map />
-        </>
-      )}
+      {/* {!isLoading && ( */}
+      <>
+        <Legend /> <Map />
+      </>
+      {/* )} */}
     </div>
   );
 };
