@@ -15,7 +15,7 @@ import React, { useContext, useState } from "react";
 import { updateLand } from "../../helpers/landHelper";
 import CurUserContext from "../../store/curUser-context";
 import classes from "./LandModalInfo.module.scss";
-const LandModalInfo = ({ landData }) => {
+const LandModalInfo = ({ landData, onClose }) => {
   const curUserCtx = useContext(CurUserContext);
   const [isMyLand, setIsMyLand] = useState(
     curUserCtx.user.id === landData.owner
@@ -68,7 +68,9 @@ const LandModalInfo = ({ landData }) => {
           </div>
           <div className={classes["formSection"]}>
             <FormControlLabel
-              control={<Switch value={landData.forSale} disabled={!isMyLand} />}
+              control={
+                <Switch checked={landData.forSale} disabled={!isMyLand} />
+              }
               label="For Sale"
               labelPlacement="start"
               sx={{ ...sxClasses }}
@@ -103,10 +105,16 @@ const LandModalInfo = ({ landData }) => {
         </div>
         <div className={classes["btnSection"]}>
           <Button variant="contained">Play Game!</Button>
-          <Button variant="contained" type="submit">
+          <Button
+            variant="contained"
+            disabled={!landData.forSale}
+            type="submit"
+          >
             Buy
           </Button>
-          <Button variant="contained">Close</Button>
+          <Button variant="contained" onClick={onClose}>
+            Close
+          </Button>
         </div>
       </form>
     </div>

@@ -15,19 +15,15 @@ const Land = (props) => {
         // console.log("Land forSale: " + props.forSale);
         // console.log("Land owner: " + props.owner);
         // console.log("Land isOcupied: " + props.isOcupied);
-        if(props.isOcupied) {
+        if (props.isOcupied) {
           console.log(props.owner);
           console.log(currentUser);
-          if(props.owner === currentUser.id) {
-            if(props.forSale)
-              setClassColor("orange");
-            else 
-              setClassColor("yellow");
+          if (props.owner === currentUser.id) {
+            if (props.forSale) setClassColor("orange");
+            else setClassColor("yellow");
           } else {
-            if(props.forSale)
-              setClassColor("purple");
-            else 
-              setClassColor("red");
+            if (props.forSale) setClassColor("purple");
+            else setClassColor("red");
           }
         } else {
           setClassColor("blue");

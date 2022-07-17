@@ -39,7 +39,7 @@ const Map = () => {
         setMapData(newArr);
         sessionStorage.setItem("map", JSON.stringify(newArr));
       })();
-    } else {  
+    } else {
       setMapData(JSON.parse(sessionStorage.getItem("map")));
     }
   }, []);
@@ -82,7 +82,7 @@ const Map = () => {
         onClose={handleModalClose}
         sx={{ maxWidth: "40%" }}
       >
-        <LandModalInfo landData={landModalData} />
+        <LandModalInfo landData={landModalData} onClose={handleModalClose} />
       </MUIModal>
     </>
   );
