@@ -62,10 +62,7 @@ const UserOptions = () => {
     // } else {
       if(name !== curUserCtx.user.name || password.length > 0) {
         if (!isPasswordError && !isSamePasswordError && !isUsernameError) {
-          console.log(name);
-          console.log(password);
           updateUser(name, password);
-          
         }
       }
     // }

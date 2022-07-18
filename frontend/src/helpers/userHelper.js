@@ -50,7 +50,6 @@ export const updateUser = async (name, newPassword) => {
   let resStatus;
   try {
     let currentUser = auth.currentUser;
-    console.log(currentUser);
   
     if(currentUser.displayName !== name) {
       await updateProfile(currentUser, {
