@@ -11,7 +11,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { buyLand } from "../../helpers/landHelper";
 import CurUserContext from "../../store/curUser-context";
 import classes from "./LandModalInfo.module.scss";
@@ -20,10 +20,26 @@ const LandModalInfo = ({ landData }) => {
   const [isMyLand, setIsMyLand] = useState(
     curUserCtx.user.id === landData.owner
   );
+  const [landOwner, setLandOwner] = useState("");
+
   const sxClasses = {
     marginRight: "auto",
     maxWidth: "200px",
   };
+
+  useEffect(() => {
+    if(landData.owner !== null && landData.owner.length > 0) {
+      (async () => {
+        const landUser = await fetch(`http://127.0.0.1:5000/user/get?id=${landData.owner}`)
+        .then(async (user) => {
+         setLandOwner(await user.json());
+        }
+        ).catch((err) => {
+          console.log(err);
+        });
+      })();
+    }
+  }, []);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -37,6 +53,7 @@ const LandModalInfo = ({ landData }) => {
     });
     console.log(res);
   };
+  
   return (
     <div>
       <h3>Land {landData.id}</h3>
@@ -48,7 +65,7 @@ const LandModalInfo = ({ landData }) => {
               label="Owner"
               variant="standard"
               disabled={true}
-              value={landData.owner ? landData.owner : "none"}
+              value={landData.owner ? landOwner.name : "none"}
               sx={{ ...sxClasses }}
             />
             <FormControl sx={{ marginTop: 2, ...sxClasses }}>
