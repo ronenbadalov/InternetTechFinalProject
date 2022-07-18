@@ -3,6 +3,8 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   fetchSignInMethodsForEmail,
+  updateProfile,
+  updatePassword
 } from "firebase/auth";
 import { auth } from "../config/firebase.js";
 
@@ -42,6 +44,51 @@ export const checkIfEmailExists = async (email) => {
     console.error(e.message);
   }
   return isExists;
+};
+
+export const updateUser = async (name, newPassword) => {
+  let resStatus;
+  try {
+    let currentUser = auth.currentUser;
+    console.log(currentUser);
+  
+    if(currentUser.displayName !== name) {
+      await updateProfile(currentUser, {
+        displayName: name
+      }).then((res) => {
+        console.log(res);
+      }).catch((error) => {
+        console.log(error.message);
+        resStatus = false;
+      });
+
+      let resUpdateUser = await fetch(
+        `http://127.0.0.1:5000/user/update`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({id: currentUser.uid, name: name}),
+        }
+      );
+      if (!resUpdateUser.ok) throw new Error("User not found");
+      resStatus = true;
+    }
+
+    if(newPassword.length >= 6) {
+      await updatePassword(currentUser, newPassword)
+      .then((res) => {
+        console.log(res);
+      }).catch((error) => {
+        console.log(error.message);
+        resStatus = false;
+      });
+    }
+
+    return resStatus;
+  } catch (e) {
+    console.error(e.message);
+    return resStatus;
+  }
 };
 
 export const getUser = async (email, password) => {

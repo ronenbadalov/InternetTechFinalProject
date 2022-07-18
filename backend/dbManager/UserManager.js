@@ -1,4 +1,5 @@
-import { firestore } from "../index.js";
+import { firestore, auth } from "../index.js";
+import { updateProfile } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 export const setUser = async (user) => {
   try {
@@ -43,16 +44,32 @@ export const getAll = async () => {
 
 export const updateUserById = async (item) => {
   try {
+    console.log("In updateUserById: ");
+    console.log(item);
+    console.log(item.id);
     const userRef = firestore.collection("users").doc(`${item.id}`);
     const res = await userRef.update({
-      //   price: item.price,
-      //   innerData: item.innerData,
+      ...item
     });
     return res;
   } catch (e) {
     console.log(e.message);
   }
 };
+
+// export const updateUserNameAndPassword = async(name, newPassword) => {
+//   let resposnseStatus = false;
+//   try {
+//     const currrentUser = auth.currentUser;
+
+//     const res = await updateUserById(userToUpdate);
+
+//     return resposnseStatus;
+//   } catch (e) {
+//     console.log(e.message);
+//   }
+// };
+
 
 export const updateCurUserInCache = async () => {
   try {
