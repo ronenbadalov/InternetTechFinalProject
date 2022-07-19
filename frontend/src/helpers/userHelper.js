@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   fetchSignInMethodsForEmail,
   updateProfile,
-  updatePassword
+  updatePassword,
 } from "firebase/auth";
 import { auth } from "../config/firebase.js";
 
@@ -50,37 +50,37 @@ export const updateUser = async (name, newPassword) => {
   let resStatus;
   try {
     let currentUser = auth.currentUser;
-  
-    if(currentUser.displayName !== name) {
-      await updateProfile(currentUser, {
-        displayName: name
-      }).then((res) => {
-        console.log(res);
-      }).catch((error) => {
-        console.log(error.message);
-        resStatus = false;
-      });
 
-      let resUpdateUser = await fetch(
-        `http://127.0.0.1:5000/user/update`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({id: currentUser.uid, name: name}),
-        }
-      );
+    if (currentUser.displayName !== name) {
+      await updateProfile(currentUser, {
+        displayName: name,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          resStatus = false;
+        });
+
+      let resUpdateUser = await fetch(`http://127.0.0.1:5000/user/update`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: currentUser.uid, name: name }),
+      });
       if (!resUpdateUser.ok) throw new Error("User not found");
       resStatus = true;
     }
 
-    if(newPassword.length >= 6) {
+    if (newPassword.length >= 6) {
       await updatePassword(currentUser, newPassword)
-      .then((res) => {
-        console.log(res);
-      }).catch((error) => {
-        console.log(error.message);
-        resStatus = false;
-      });
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          resStatus = false;
+        });
     }
 
     return resStatus;
@@ -120,24 +120,26 @@ export const getUserFromSession = async () => {
 };
 
 // CONTINUE HERE
-export const changeUserBalance = async (landPrice) => {
+export const changeUserBalance = async (userId, landPrice) => {
   try {
-    const userID = sessionStorage.getItem("user");
-    if (!userID) return null;
+    // const userID = sessionStorage.getItem("user");
+    // if (!userID) return null;
     const resGetUser = await fetch(
-      `http://127.0.0.1:5000/user/get?id=${userID}`
+      `http://127.0.0.1:5000/user/get?id=${userId}`
     );
+    if (!resGetUser.ok) throw new Error("User not found");
     const user = await resGetUser.json();
-    // const resUpdateUser = await fetch(
-    //   `http://127.0.0.1:5000/user/get?id=${userID}`,
-    //   {
-    //     method: "PUT",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(user.balance - landPrice),
-    //   }
-    // );
-    // if (!res.ok) throw new Error("User not found");
-    // return await res.json();
+    const resUpdateUser = await fetch(
+      `http://127.0.0.1:5000/user/get?id=${userId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user.balance - landPrice),
+      }
+    );
+    if (!resUpdateUser.ok) throw new Error("Couldnt update user balance");
+
+    return await resUpdateUser.json();
   } catch (e) {
     console.error(e.message);
     return false;

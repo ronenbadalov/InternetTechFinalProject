@@ -18,7 +18,7 @@ const Land = (props) => {
         if (props.isOcupied) {
           // console.log(props.owner);
           // console.log(currentUser);
-          if (props.owner === currentUser.id) {
+          if (props.owner === currentUser?.id) {
             if (props.forSale) setClassColor("orange");
             else setClassColor("yellow");
           } else {

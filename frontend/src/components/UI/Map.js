@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import MUIModal from "../Modal/MUIModal";
 import LandModalInfo from "../LandModalInfo/LandModalInfo";
 import Loader from "../Loader/Loader";
+import GameModal from "../GameModal/GameModal";
 
 const getMap = async () => {
   try {
@@ -22,6 +23,7 @@ const Map = () => {
   const [landModalData, setLandModalData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showGameModal, setShowGameModal] = useState(false);
 
   const handleModalOpen = useCallback(() => {
     setShowModal(true);
@@ -46,6 +48,15 @@ const Map = () => {
       setMapData(JSON.parse(sessionStorage.getItem("map")));
     }
     setIsLoading(false);
+  }, []);
+  console.log(mapData);
+
+  const handleGameModalOpen = useCallback(() => {
+    setShowGameModal(true);
+  }, []);
+
+  const handleGameModalClose = useCallback(() => {
+    setShowGameModal(false);
   }, []);
 
   const MapComp = useCallback(() => {
@@ -92,7 +103,18 @@ const Map = () => {
         onClose={handleModalClose}
         sx={{ maxWidth: "40%" }}
       >
-        <LandModalInfo landData={landModalData} />
+        <LandModalInfo
+          landData={landModalData}
+          onClose={handleGameModalClose}
+          handleGameModalOpen={handleGameModalOpen}
+        />
+      </MUIModal>
+      <MUIModal
+        open={showGameModal}
+        onClose={handleGameModalClose}
+        sx={{ maxWidth: "100%", margin: "20px" }}
+      >
+        <GameModal landData={landModalData} />
       </MUIModal>
     </>
   );
