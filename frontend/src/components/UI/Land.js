@@ -45,7 +45,8 @@ const Land = (props) => {
       price: props.price,
       owner: props.owner,
       forSale: props.forSale,
-      isOccupied: props.isOccupied,
+      innerData: props.innerData,
+      isOcupied: props.isOcupied,
       disabled: props.disabled,
     });
     props.onClick();

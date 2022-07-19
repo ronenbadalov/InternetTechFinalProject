@@ -65,6 +65,7 @@ const Map = () => {
                           type={land.type}
                           price={land.price}
                           isOcupied={land.isOcupied}
+                          innerData={land.innerData}
                           owner={land.owner}
                           forSale={land.forSale}
                           disabled={land.disabled}

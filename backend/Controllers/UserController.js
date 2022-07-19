@@ -50,8 +50,6 @@ export const getAllUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    console.log("In UpdateUser: ");
-    console.log(req.body);
     const response = await updateUserById(req.body);
     res.status(200).send(response);
   } catch (err) {
