@@ -18,26 +18,35 @@ import CurUserContext from "../../store/curUser-context";
 import GameModal from "../GameModal/GameModal";
 import MUIModal from "../Modal/MUIModal";
 import classes from "./LandModalInfo.module.scss";
-const LandModalInfo = ({ landData, onClose }) => {
+const LandModalInfo = ({ landData, onClose, handleGameModalOpen }) => {
   const curUserCtx = useContext(CurUserContext);
   const [isMyLand, setIsMyLand] = useState(
     curUserCtx.user.id === landData.owner
   );
   const [landOwner, setLandOwner] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  const [price, setPrice] = useState("");
+  const [forSale, setForSale] = useState(true);
+  const [game, setGame] = useState({ name: "" });
+  // const [showModal, setShowModal] = useState(false);
 
-  const handleModalOpen = useCallback(() => {
-    setShowModal(true);
-  }, []);
+  // const handleModalOpen = useCallback(() => {
+  //   setShowModal(true);
+  // }, []);
 
-  const handleModalClose = useCallback(() => {
-    setShowModal(false);
-  }, []);
+  // const handleModalClose = useCallback(() => {
+  //   setShowModal(false);
+  // }, []);
 
   const sxClasses = {
     marginRight: "auto",
     maxWidth: "200px",
   };
+
+  useEffect(() => {
+    setPrice(landData.price);
+    setForSale(landData.forSale);
+    setGame(landData.innerData);
+  }, [landData]);
 
   useEffect(() => {
     if (landData.owner !== null && landData.owner.length > 0) {
@@ -69,7 +78,9 @@ const LandModalInfo = ({ landData, onClose }) => {
       curUserCtx.user.id,
       landData.price
     );
-    console.log(res);
+  };
+  const saveChangesHandler = () => {
+    console.log("changes saved");
   };
   return (
     <div>
@@ -82,14 +93,14 @@ const LandModalInfo = ({ landData, onClose }) => {
               label="Owner"
               variant="standard"
               disabled={true}
-              value={landData.owner ? landData.name : "none"}
+              value={landOwner.name ? landOwner.name : "none"}
               sx={{ ...sxClasses }}
             />
             <FormControl sx={{ marginTop: 2, ...sxClasses }}>
               <InputLabel htmlFor="landPrice">Price</InputLabel>
               <Input
                 id="landPrice"
-                value={landData.price}
+                value={price}
                 // onChange={handleChange('amount')}
                 startAdornment={
                   <InputAdornment position="start">$</InputAdornment>
@@ -101,9 +112,7 @@ const LandModalInfo = ({ landData, onClose }) => {
           </div>
           <div className={classes["formSection"]}>
             <FormControlLabel
-              control={
-                <Switch checked={landData.forSale} disabled={!isMyLand} />
-              }
+              control={<Switch checked={forSale} disabled={!isMyLand} />}
               label="For Sale"
               labelPlacement="start"
               sx={{ ...sxClasses }}
@@ -116,6 +125,7 @@ const LandModalInfo = ({ landData, onClose }) => {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
+                value={game.name ? game.name : ""}
               >
                 <FormControlLabel
                   value="Numble"
@@ -137,14 +147,27 @@ const LandModalInfo = ({ landData, onClose }) => {
           </div>
         </div>
         <div className={classes["btnSection"]}>
-          <Button variant="contained">Play Game!</Button>
           <Button
             variant="contained"
-            disabled={!landData.forSale}
-            type="submit"
+            disabled={!game.url}
+            onClick={handleGameModalOpen}
           >
-            Buy
+            Play Game!
           </Button>
+          {!isMyLand && (
+            <Button
+              variant="contained"
+              disabled={!landData.forSale}
+              type="submit"
+            >
+              Buy
+            </Button>
+          )}
+          {isMyLand && (
+            <Button variant="contained" onClick={saveChangesHandler}>
+              Save Changes
+            </Button>
+          )}
           <Button variant="contained" onClick={onClose}>
             Close
           </Button>

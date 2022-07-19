@@ -33,6 +33,7 @@ const Login = () => {
     e.preventDefault();
     setIsBtnClicked(true);
     const user = await getUser(email, password);
+    console.log(user);
     if (user === undefined) {
       setIsLoggedIn(false);
     } else {

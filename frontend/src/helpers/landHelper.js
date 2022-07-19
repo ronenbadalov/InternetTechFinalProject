@@ -3,7 +3,11 @@ export const buyLand = async (landId, updatedData) => {
     `http://127.0.0.1:5000/land/update/${landId}`,
     {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      // mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify(updatedData),
     }
   );

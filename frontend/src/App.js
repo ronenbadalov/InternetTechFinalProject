@@ -25,12 +25,10 @@ const App = () => {
         userLogOut();
         auth.signOut();
       }
-      console.log(userFromSession);
       curUserCtx.login(userFromSession);
       setIsLoading(false);
     })();
   }, []);
-
   return (
     <div className="App">
       {isLoading && <Loader />}
