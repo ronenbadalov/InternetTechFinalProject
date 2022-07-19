@@ -15,20 +15,10 @@ const Land = (props) => {
     }
     switch (props.type) {
       case "land":
-<<<<<<< HEAD
-        // console.log("Land ID: " + props.id);
-        // console.log("Land forSale: " + props.forSale);
-        // console.log("Land owner: " + props.owner);
-        // console.log("Land isOcupied: " + props.isOcupied);
-        if (props.isOcupied) {
-          console.log(props.owner);
-          console.log(currentUser);
-=======
         if (props.isOcupied) {
           // console.log(props.owner);
           // console.log(currentUser);
->>>>>>> origin/main
-          if (props.owner === currentUser.id) {
+          if (props.owner === currentUser?.id) {
             if (props.forSale) setClassColor("orange");
             else setClassColor("yellow");
           } else {
@@ -55,7 +45,8 @@ const Land = (props) => {
       price: props.price,
       owner: props.owner,
       forSale: props.forSale,
-      isOccupied: props.isOccupied,
+      innerData: props.innerData,
+      isOcupied: props.isOcupied,
       disabled: props.disabled,
     });
     props.onClick();

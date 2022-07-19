@@ -3,7 +3,7 @@ import {
   getAll,
   getUserById,
   setUser,
-  updateUserById,
+  updateUserById
 } from "../dbManager/UserManager.js";
 import url from "url";
 
@@ -50,7 +50,6 @@ export const getAllUsers = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    console.log(req.body);
     const response = await updateUserById(req.body);
     res.status(200).send(response);
   } catch (err) {
@@ -58,3 +57,14 @@ export const updateUser = async (req, res) => {
     res.status(500).send("cant update user");
   }
 };
+
+// export const updateUserNameAndPass = async (req, res) => {
+//   try {
+//     console.log(req.body);
+//     const response = await updateUserNameAndPassword(req.body.name, req.body.password);
+//     res.status(200).send(response);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send("cant update user");
+//   }
+// };

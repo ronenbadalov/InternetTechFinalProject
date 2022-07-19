@@ -10,7 +10,7 @@ const Loader = () => {
         loop={true}
         style={{ width: "300px" }}
       />
-      <h3>Please wait while we build the map</h3>
+      <h3>Please Wait</h3>
     </div>
   );
 };

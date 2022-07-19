@@ -11,19 +11,49 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { buyLand } from "../../helpers/landHelper";
+import { changeUserBalance } from "../../helpers/userHelper";
 import CurUserContext from "../../store/curUser-context";
+import GameModal from "../GameModal/GameModal";
+import MUIModal from "../Modal/MUIModal";
 import classes from "./LandModalInfo.module.scss";
 const LandModalInfo = ({ landData, onClose }) => {
   const curUserCtx = useContext(CurUserContext);
   const [isMyLand, setIsMyLand] = useState(
     curUserCtx.user.id === landData.owner
   );
+  const [landOwner, setLandOwner] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const handleModalOpen = useCallback(() => {
+    setShowModal(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setShowModal(false);
+  }, []);
+
   const sxClasses = {
     marginRight: "auto",
     maxWidth: "200px",
   };
+
+  useEffect(() => {
+    if (landData.owner !== null && landData.owner.length > 0) {
+      (async () => {
+        const landUser = await fetch(
+          `http://127.0.0.1:5000/user/get?id=${landData.owner}`
+        )
+          .then(async (user) => {
+            setLandOwner(await user.json());
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })();
+    }
+  }, []);
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
@@ -35,6 +65,10 @@ const LandModalInfo = ({ landData, onClose }) => {
       owner: curUserCtx.user.id,
       isOcupied: true,
     });
+    const userBalanceRes = await changeUserBalance(
+      curUserCtx.user.id,
+      landData.price
+    );
     console.log(res);
   };
   return (
@@ -48,7 +82,7 @@ const LandModalInfo = ({ landData, onClose }) => {
               label="Owner"
               variant="standard"
               disabled={true}
-              value={landData.owner ? landData.owner : "none"}
+              value={landData.owner ? landData.name : "none"}
               sx={{ ...sxClasses }}
             />
             <FormControl sx={{ marginTop: 2, ...sxClasses }}>
