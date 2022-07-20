@@ -91,18 +91,18 @@ export const updateUser = async (name, newPassword) => {
 };
 
 export const getUser = async (email, password) => {
-  let res;
   try {
-    res = await signInWithEmailAndPassword(auth, email, password);
+    const res = await signInWithEmailAndPassword(auth, email, password);
     const getUserById = await fetch(
       `http://127.0.0.1:5000/user/get?id=${auth.currentUser.uid}`
     );
     const data = await getUserById.json();
+    console.log(data);
     sessionStorage.setItem("user", data.id);
     return data;
   } catch (e) {
     console.error(e.message);
-    return res;
+    return false;
   }
 };
 
@@ -120,7 +120,7 @@ export const getUserFromSession = async () => {
 };
 
 // CONTINUE HERE
-export const changeUserBalance = async (userId, landPrice) => {
+export const changeUserBalance = async (userId, landId, landPrice, action) => {
   try {
     // const userID = sessionStorage.getItem("user");
     // if (!userID) return null;
@@ -129,12 +129,20 @@ export const changeUserBalance = async (userId, landPrice) => {
     );
     if (!resGetUser.ok) throw new Error("User not found");
     const user = await resGetUser.json();
+    // console.log(user.owndLands.push(`${landId}`));
+    user.ownLands.push(`${landId}`);
     const resUpdateUser = await fetch(
-      `http://127.0.0.1:5000/user/get?id=${userId}`,
+      `http://127.0.0.1:5000/user/update?id=${userId}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user.balance - landPrice),
+        body: JSON.stringify({
+          balance:
+            action === "add"
+              ? user.balance + landPrice
+              : user.balance - landPrice,
+          ownLands: user.ownLands,
+        }),
       }
     );
     if (!resUpdateUser.ok) throw new Error("Couldnt update user balance");

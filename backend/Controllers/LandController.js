@@ -84,8 +84,8 @@ export const getAllMap = async (req, res) => {
 
 export const updateLand = async (req, res) => {
   try {
-    console.log("IN UPDATE");
     const response = await updateLandById(req.params.id, req.body);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.status(200).send(response);
   } catch (err) {
     console.log(err);

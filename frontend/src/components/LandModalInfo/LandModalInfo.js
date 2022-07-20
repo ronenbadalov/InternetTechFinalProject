@@ -12,13 +12,19 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { buyLand } from "../../helpers/landHelper";
+import { buyLand, updateLand } from "../../helpers/landHelper";
 import { changeUserBalance } from "../../helpers/userHelper";
 import CurUserContext from "../../store/curUser-context";
 import GameModal from "../GameModal/GameModal";
 import MUIModal from "../Modal/MUIModal";
 import classes from "./LandModalInfo.module.scss";
-const LandModalInfo = ({ landData, onClose, handleGameModalOpen }) => {
+const LandModalInfo = ({
+  landData,
+  onClose,
+  handleGameModalOpen,
+  refreshMap,
+  setUser,
+}) => {
   const curUserCtx = useContext(CurUserContext);
   const [isMyLand, setIsMyLand] = useState(
     curUserCtx.user.id === landData.owner
@@ -70,17 +76,43 @@ const LandModalInfo = ({ landData, onClose, handleGameModalOpen }) => {
       alert("You don't have enough money to buy this land");
       return;
     }
-    const res = await buyLand(landData.id, curUserCtx.user.id, landData.price, {
+    if (landData.owner != "") {
+      const userBalanceRes = await changeUserBalance(
+        landData.owner,
+        landData.id,
+        landData.price,
+        "add"
+      );
+    }
+    const res = await updateLand(landData.id, {
+      ...landData,
       owner: curUserCtx.user.id,
       isOcupied: true,
     });
     const userBalanceRes = await changeUserBalance(
       curUserCtx.user.id,
-      landData.price
+      landData.id,
+      landData.price,
+      "sub"
     );
+    await refreshMap();
+    await setUser();
   };
-  const saveChangesHandler = () => {
-    console.log("changes saved");
+  const saveChangesHandler = async () => {
+    let gameUrl;
+    if (game.name === "Numble")
+      gameUrl = "https://numble-ronen-badalov.netlify.app/";
+    if (game.name === "TicTacToe")
+      gameUrl = "https://toytheater.com/tic-tac-toe/";
+    if (game.name === "Flappy Bird") gameUrl = "https://flappybird.io/";
+    const res = await updateLand(landData.id, {
+      ...landData,
+      price,
+      forSale,
+      innerData: { name: game.name, url: gameUrl },
+    });
+    onClose();
+    await refreshMap();
   };
   return (
     <div>
@@ -101,7 +133,9 @@ const LandModalInfo = ({ landData, onClose, handleGameModalOpen }) => {
               <Input
                 id="landPrice"
                 value={price}
-                // onChange={handleChange('amount')}
+                onChange={(e) => {
+                  setPrice(e.target.value);
+                }}
                 startAdornment={
                   <InputAdornment position="start">$</InputAdornment>
                 }
@@ -112,8 +146,20 @@ const LandModalInfo = ({ landData, onClose, handleGameModalOpen }) => {
           </div>
           <div className={classes["formSection"]}>
             <FormControlLabel
-              control={<Switch checked={forSale} disabled={!isMyLand} />}
+              control={
+                <Switch
+                  checked={forSale}
+                  onChange={(e) => {
+                    setForSale(e.target.checked);
+                  }}
+                  disabled={!isMyLand}
+                />
+              }
               label="For Sale"
+              // onChange={(e) => {
+              //   // setForSale(e.target.value);
+              //   console.log(e.target.value);
+              // }}
               labelPlacement="start"
               sx={{ ...sxClasses }}
             />
@@ -126,6 +172,9 @@ const LandModalInfo = ({ landData, onClose, handleGameModalOpen }) => {
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
                 value={game.name ? game.name : ""}
+                onChange={(e) => {
+                  setGame({ name: e.target.value });
+                }}
               >
                 <FormControlLabel
                   value="Numble"
@@ -138,9 +187,9 @@ const LandModalInfo = ({ landData, onClose, handleGameModalOpen }) => {
                   label="TicTacToe"
                 />
                 <FormControlLabel
-                  value="Game3"
+                  value="Flappy Bird"
                   control={<Radio />}
-                  label="Game3"
+                  label="Flappy Bird"
                 />
               </RadioGroup>
             </FormControl>

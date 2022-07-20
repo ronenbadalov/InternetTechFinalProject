@@ -9,10 +9,10 @@ const Land = (props) => {
   const currentUser = curUserCtx.user;
 
   useEffect(() => {
-    if (props.id == 100) {
-      console.log(props);
-      console.log(currentUser);
-    }
+    // if (props.id == 100) {
+    //   console.log(props);
+    //   console.log(currentUser);
+    // }
     switch (props.type) {
       case "land":
         if (props.isOcupied) {
