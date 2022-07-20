@@ -4,7 +4,7 @@ import Loader from "../components/Loader/Loader";
 import Map from "../components/UI/Map";
 
 const wait = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-const Home = () => {
+const Home = (props) => {
   // const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
@@ -20,7 +20,7 @@ const Home = () => {
 
       {/* {!isLoading && ( */}
       <>
-        <Legend /> <Map />
+        <Legend /> <Map setUser={props.setUser} />
       </>
       {/* )} */}
     </div>

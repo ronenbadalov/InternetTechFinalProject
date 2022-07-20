@@ -18,17 +18,19 @@ const App = () => {
   const [user, loading, error] = useAuthState(auth);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      const userFromSession = await getUserFromSession();
-      if (!userFromSession) {
-        userLogOut();
-        auth.signOut();
-      }
-      curUserCtx.login(userFromSession);
-      setIsLoading(false);
-    })();
+    setUser();
   }, []);
+
+  const setUser = async () => {
+    setIsLoading(true);
+    const userFromSession = await getUserFromSession();
+    if (!userFromSession) {
+      userLogOut();
+      auth.signOut();
+    }
+    curUserCtx.login(userFromSession);
+    setIsLoading(false);
+  };
   return (
     <div className="App">
       {isLoading && <Loader />}
@@ -56,7 +58,7 @@ const App = () => {
               </>
             ) : (
               <>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home setUser={setUser} />} />
                 <Route path="*" element={<Navigate replace to="/" />} />
               </>
             )}

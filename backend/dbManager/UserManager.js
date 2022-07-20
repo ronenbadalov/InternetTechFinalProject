@@ -42,14 +42,13 @@ export const getAll = async () => {
   }
 };
 
-export const updateUserById = async (item) => {
+export const updateUserById = async (id, item) => {
   try {
     console.log("In updateUserById: ");
     console.log(item);
-    console.log(item.id);
-    const userRef = firestore.collection("users").doc(`${item.id}`);
+    const userRef = firestore.collection("users").doc(`${id}`);
     const res = await userRef.update({
-      ...item
+      ...item,
     });
     return res;
   } catch (e) {
@@ -69,7 +68,6 @@ export const updateUserById = async (item) => {
 //     console.log(e.message);
 //   }
 // };
-
 
 export const updateCurUserInCache = async () => {
   try {

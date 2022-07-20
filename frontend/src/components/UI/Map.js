@@ -18,7 +18,7 @@ const getMap = async () => {
   }
 };
 
-const Map = () => {
+const Map = (props) => {
   const [mapData, setMapData] = useState([]);
   const [landModalData, setLandModalData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -34,6 +34,10 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
+    refreshMap();
+  }, []);
+
+  const refreshMap = () => {
     setIsLoading(true);
     if (!sessionStorage.getItem("map")) {
       (async () => {
@@ -48,8 +52,7 @@ const Map = () => {
       setMapData(JSON.parse(sessionStorage.getItem("map")));
     }
     setIsLoading(false);
-  }, []);
-  console.log(mapData);
+  };
 
   const handleGameModalOpen = useCallback(() => {
     setShowGameModal(true);
@@ -73,6 +76,7 @@ const Map = () => {
                       <Col key={land.id} className="p-0 m-0">
                         <Land
                           id={land.id}
+                          key={land.id}
                           type={land.type}
                           price={land.price}
                           isOcupied={land.isOcupied}
@@ -105,8 +109,10 @@ const Map = () => {
       >
         <LandModalInfo
           landData={landModalData}
-          onClose={handleGameModalClose}
+          onClose={handleModalClose}
           handleGameModalOpen={handleGameModalOpen}
+          refreshMap={refreshMap}
+          setUser={props.setUser}
         />
       </MUIModal>
       <MUIModal
