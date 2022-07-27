@@ -113,6 +113,7 @@ const LandModalInfo = ({
     });
     onClose();
     await refreshMap();
+    await setUser();
   };
   return (
     <div>
