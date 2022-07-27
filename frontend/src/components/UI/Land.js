@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState, useContext } from "react";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CurUserContext from "../../store/curUser-context";
+import { Badge } from "@mui/material";
 
 const Land = (props) => {
   const [classColor, setClassColor] = useState("");
@@ -9,15 +10,9 @@ const Land = (props) => {
   const currentUser = curUserCtx.user;
 
   useEffect(() => {
-    // if (props.id == 100) {
-    //   console.log(props);
-    //   console.log(currentUser);
-    // }
     switch (props.type) {
       case "land":
         if (props.isOcupied) {
-          // console.log(props.owner);
-          // console.log(currentUser);
           if (props.owner === currentUser?.id) {
             if (props.forSale) setClassColor("orange");
             else setClassColor("yellow");
@@ -54,26 +49,51 @@ const Land = (props) => {
 
   return (
     <>
-      <Button
-        variant="link"
-        className={`rounded-0 p-0 ${classColor}`}
-        style={{
-          outline: "1px solid black",
-          boxShadow: "none",
-          fontSize: "8px",
-          width: "30px",
-          height: "30px",
-          borderColor: "transparent",
-          color: "white",
-          textDecoration: "none",
-        }}
-        id={props.id}
-        key={props.id}
-        disabled={props.disabled}
-        onClick={showLandDataInModal}
-      >
-        {props.disabled ? "" : props.price}
-      </Button>
+      {props.innerData.name ? (
+        <Badge badgeContent={"G"} color="secondary">
+          <Button
+            variant="link"
+            className={`rounded-0 p-0 ${classColor}`}
+            style={{
+              outline: "1px solid black",
+              boxShadow: "none",
+              fontSize: "8px",
+              width: "30px",
+              height: "30px",
+              borderColor: "transparent",
+              color: "white",
+              textDecoration: "none",
+            }}
+            id={props.id}
+            key={props.id}
+            disabled={props.disabled}
+            onClick={showLandDataInModal}
+          >
+            {props.disabled ? "" : props.price}
+          </Button>
+        </Badge>
+      ) : (
+        <Button
+          variant="link"
+          className={`rounded-0 p-0 ${classColor}`}
+          style={{
+            outline: "1px solid black",
+            boxShadow: "none",
+            fontSize: "8px",
+            width: "30px",
+            height: "30px",
+            borderColor: "transparent",
+            color: "white",
+            textDecoration: "none",
+          }}
+          id={props.id}
+          key={props.id}
+          disabled={props.disabled}
+          onClick={showLandDataInModal}
+        >
+          {props.disabled ? "" : props.price}
+        </Button>
+      )}
     </>
   );
 };
