@@ -11,7 +11,6 @@ const Legend = (props) => {
   const map = getMapFromCache();
 
   useEffect(() => {
-
     (async () => {
       setAllUsersArr(await getAllUsers());
     })();
