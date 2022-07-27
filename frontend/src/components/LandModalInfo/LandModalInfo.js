@@ -52,6 +52,7 @@ const LandModalInfo = ({
     setPrice(landData.price);
     setForSale(landData.forSale);
     setGame(landData.innerData);
+    console.log(landData);
   }, [landData]);
 
   useEffect(() => {
@@ -100,7 +101,6 @@ const LandModalInfo = ({
   };
   const saveChangesHandler = async () => {
     const innerData = {};
-    let gameUrl;
     if (game.name === "Numble") {
       innerData.name = game.name;
       innerData.gameUrl = "https://numble-ronen-badalov.netlify.app/";
@@ -214,7 +214,7 @@ const LandModalInfo = ({
         <div className={classes["btnSection"]}>
           <Button
             variant="contained"
-            disabled={!game.url}
+            disabled={!game.gameUrl}
             onClick={handleGameModalOpen}
           >
             Play Game!
