@@ -34,7 +34,7 @@ const Login = () => {
     setIsBtnClicked(true);
     const user = await getUser(email, password);
     console.log(user);
-    if (user === undefined) {
+    if (!user) {
       setIsLoggedIn(false);
     } else {
       setIsLoggedIn(true);

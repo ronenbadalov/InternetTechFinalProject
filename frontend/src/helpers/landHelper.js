@@ -29,3 +29,23 @@ export const updateLand = async (landId, updatedData) => {
     return false;
   }
 };
+
+
+export const getMap = async () => {
+  try {
+    const res = await fetch("http://127.0.0.1:5000/land/getAll");
+    if (!res.ok) throw new Error("error while fetching map");
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.error(e.message);
+  }
+};
+
+export const getMapFromCache = () => {
+  try {
+    return JSON.parse(sessionStorage.getItem("map"));
+  } catch (e) {
+    console.error(e.message);
+  }
+};

@@ -106,6 +106,19 @@ export const getUser = async (email, password) => {
   }
 };
 
+export const getAllUsers = async () => {
+  try {
+    const getAll = await fetch(
+      `http://127.0.0.1:5000/user/getAll`
+    );
+    const data = await getAll.json();
+    return data;
+  } catch (e) {
+    console.error(e.message);
+    return false;
+  }
+};
+
 export const getUserFromSession = async () => {
   try {
     const userID = sessionStorage.getItem("user");
