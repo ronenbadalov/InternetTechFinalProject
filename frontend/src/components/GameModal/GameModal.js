@@ -21,7 +21,7 @@ const GameModal = ({ landData }) => {
         {landData.innerData ? landData.innerData.name : "No Game"}
       </h3>
       {landData.innerData ? (
-        <iframe className={classes["frame"]} src={landData.innerData.url} />
+        <iframe className={classes["frame"]} src={landData.innerData.gameUrl} />
       ) : (
         ""
       )}
