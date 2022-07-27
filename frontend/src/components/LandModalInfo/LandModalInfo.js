@@ -99,17 +99,26 @@ const LandModalInfo = ({
     await setUser();
   };
   const saveChangesHandler = async () => {
+    const innerData = {};
     let gameUrl;
-    if (game.name === "Numble")
-      gameUrl = "https://numble-ronen-badalov.netlify.app/";
-    if (game.name === "TicTacToe")
-      gameUrl = "https://toytheater.com/tic-tac-toe/";
-    if (game.name === "Flappy Bird") gameUrl = "https://flappybird.io/";
+    if (game.name === "Numble") {
+      innerData.name = game.name;
+      innerData.gameUrl = "https://numble-ronen-badalov.netlify.app/";
+    }
+    if (game.name === "TicTacToe"){
+      innerData.name = game.name;
+      innerData.gameUrl = "https://toytheater.com/tic-tac-toe/";
+    }
+    if (game.name === "Flappy Bird") {
+      innerData.name = game.name;
+      innerData.gameUrl = "https://flappybird.io/";
+    }
+
     const res = await updateLand(landData.id, {
       ...landData,
       price,
       forSale,
-      innerData: { name: game.name, url: gameUrl },
+      innerData,
     });
     onClose();
     await refreshMap();
@@ -191,6 +200,12 @@ const LandModalInfo = ({
                   value="Flappy Bird"
                   control={<Radio />}
                   label="Flappy Bird"
+                />
+                <FormControlLabel
+                  defaultChecked = {true}
+                  value=""
+                  control={<Radio />}
+                  label="No-Game"
                 />
               </RadioGroup>
             </FormControl>
