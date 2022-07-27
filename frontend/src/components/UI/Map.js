@@ -29,18 +29,18 @@ const Map = (props) => {
 
   const refreshMap = () => {
     setIsLoading(true);
-    if (!sessionStorage.getItem("map")) {
-      (async () => {
-        const arr = await getMap();
-        const sortedArr = arr.sort((a, b) => +a.id - +b.id);
-        const newArr = [];
-        while (sortedArr.length) newArr.push(sortedArr.splice(0, 100));
-        setMapData(newArr);
-        sessionStorage.setItem("map", JSON.stringify(newArr));
-      })();
-    } else {
-      setMapData(JSON.parse(sessionStorage.getItem("map")));
-    }
+    // if (!sessionStorage.getItem("map")) {
+    (async () => {
+      const arr = await getMap();
+      const sortedArr = arr.sort((a, b) => +a.id - +b.id);
+      const newArr = [];
+      while (sortedArr.length) newArr.push(sortedArr.splice(0, 100));
+      setMapData(newArr);
+      sessionStorage.setItem("map", JSON.stringify(newArr));
+    })();
+    // } else {
+    //   setMapData(JSON.parse(sessionStorage.getItem("map")));
+    // }
     setIsLoading(false);
   };
 
