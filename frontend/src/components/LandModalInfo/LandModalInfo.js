@@ -49,6 +49,7 @@ const LandModalInfo = ({
   };
 
   useEffect(() => {
+    console.log(curUserCtx.user);
     setPrice(landData.price);
     setForSale(landData.forSale);
     setGame(landData.innerData);
@@ -215,7 +216,7 @@ const LandModalInfo = ({
           >
             Play Game!
           </Button>
-          {!isMyLand && (
+          {(!isMyLand && !!curUserCtx.user.isOwner) && (
             <Button
               variant="contained"
               disabled={!landData.forSale}

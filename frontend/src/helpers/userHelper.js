@@ -143,7 +143,12 @@ export const changeUserBalance = async (userId, landId, landPrice, action) => {
     if (!resGetUser.ok) throw new Error("User not found");
     const user = await resGetUser.json();
     // console.log(user.owndLands.push(`${landId}`));
-    user.ownLands.push(`${landId}`);
+    if(action === "add"){
+      const landToRemove = user.ownLands.indexOf(""+landId);
+      user.ownLands.splice(landToRemove, 1);
+    } else {
+      user.ownLands.push(`${landId}`);
+    }
     const resUpdateUser = await fetch(
       `http://127.0.0.1:5000/user/update?id=${userId}`,
       {
