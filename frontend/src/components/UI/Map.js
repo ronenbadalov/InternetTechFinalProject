@@ -6,17 +6,9 @@ import MUIModal from "../Modal/MUIModal";
 import LandModalInfo from "../LandModalInfo/LandModalInfo";
 import Loader from "../Loader/Loader";
 import GameModal from "../GameModal/GameModal";
+import { getMap } from "../../helpers/landHelper";
 
-const getMap = async () => {
-  try {
-    const res = await fetch("http://127.0.0.1:5000/land/getAll");
-    if (!res.ok) throw new Error("error while fetching map");
-    const data = await res.json();
-    return data;
-  } catch (e) {
-    console.error(e.message);
-  }
-};
+
 
 const Map = (props) => {
   const [mapData, setMapData] = useState([]);

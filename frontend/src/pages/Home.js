@@ -20,7 +20,7 @@ const Home = (props) => {
 
       {/* {!isLoading && ( */}
       <>
-        <Legend /> <Map setUser={props.setUser} />
+        <Legend currentUser={props.currentUser} /> <Map setUser={props.setUser} />
       </>
       {/* )} */}
     </div>

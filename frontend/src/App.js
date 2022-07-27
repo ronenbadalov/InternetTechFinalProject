@@ -58,7 +58,7 @@ const App = () => {
               </>
             ) : (
               <>
-                <Route path="/" element={<Home setUser={setUser} />} />
+                <Route path="/" element={<Home currentUser={curUserCtx.user} setUser={setUser} />} />
                 <Route path="*" element={<Navigate replace to="/" />} />
               </>
             )}
