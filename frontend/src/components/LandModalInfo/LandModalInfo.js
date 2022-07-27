@@ -105,7 +105,7 @@ const LandModalInfo = ({
       innerData.name = game.name;
       innerData.gameUrl = "https://numble-ronen-badalov.netlify.app/";
     }
-    if (game.name === "TicTacToe"){
+    if (game.name === "TicTacToe") {
       innerData.name = game.name;
       innerData.gameUrl = "https://toytheater.com/tic-tac-toe/";
     }
@@ -122,6 +122,7 @@ const LandModalInfo = ({
     });
     onClose();
     await refreshMap();
+    await setUser();
   };
   return (
     <div>
@@ -165,10 +166,6 @@ const LandModalInfo = ({
                 />
               }
               label="For Sale"
-              // onChange={(e) => {
-              //   // setForSale(e.target.value);
-              //   console.log(e.target.value);
-              // }}
               labelPlacement="start"
               sx={{ ...sxClasses }}
             />
@@ -201,7 +198,7 @@ const LandModalInfo = ({
                   label="Flappy Bird"
                 />
                 <FormControlLabel
-                  defaultChecked = {true}
+                  defaultChecked={true}
                   value=""
                   control={<Radio />}
                   label="No-Game"

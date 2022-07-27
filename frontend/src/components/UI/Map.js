@@ -8,8 +8,6 @@ import Loader from "../Loader/Loader";
 import GameModal from "../GameModal/GameModal";
 import { getMap } from "../../helpers/landHelper";
 
-
-
 const Map = (props) => {
   const [mapData, setMapData] = useState([]);
   const [landModalData, setLandModalData] = useState([]);
